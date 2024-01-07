@@ -1,6 +1,7 @@
 # react-native-modular-kit
 
-**Feature-List**
+## Feature list
+
 - Jest-Test integration 
   - jest configuration according to react-native-testing-library [Link](https://callstack.github.io/react-native-testing-library/)
   - react-redux testing (including redux-toolkit)
@@ -10,3 +11,23 @@
   - Switch (e.g. Design --> true)
 
 ![setting-screen](./assets/screen001.png)
+
+## important commands
+
+initial setup
+
+```sh
+npm install
+```
+
+run tests
+
+```sh
+npm test
+```
+
+start expo environment
+
+```sh
+npx expo start
+```
