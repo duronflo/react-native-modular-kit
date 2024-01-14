@@ -35,7 +35,37 @@ export const welcomeStyles = () => {
       padding: 5,
       flexDirection: "row",
       alignItems: "center",
-    }
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: colorPalette.backgroundColor,
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      backgroundColor: colorPalette.lightMintGreen,
+    },
+    textStyle: {
+      color: colorPalette.accentColor2,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center',
+    },
   }
 };
 

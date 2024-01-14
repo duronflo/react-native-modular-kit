@@ -1,75 +1,60 @@
-import { useNavigation } from '@react-navigation/native';
-import {useState} from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View, TouchableOpacity, SectionList, Pressable } from 'react-native';
-import {welcomeStyles} from './styles';
-import SectionListElement from './components/SectionListElement.js';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Modal, SectionList, Pressable } from 'react-native';
+import { welcomeStyles } from './styles';
+import SettingList from './components/SettingList';
 
-import { useDefaultCurrency } from '../../../features/user/hooks';
+const ModalBasic = ({ styles, modalState, text }) => {
+   const {modalVisible, toggleModalVisible} = modalState();
 
+  return (
+    <Modal
+      animationType="fade"
+      visible={modalVisible}
+      onRequestClose={toggleModalVisible}>
+      <View style={styles.container}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>{text}</Text>
+          <Pressable
+            style={[styles.button]}
+            onPress={toggleModalVisible}>
+            <Text style={styles.textStyle}>Hide Modal</Text>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
+  )
+}
 
 export default function Welcome() {
   const styles = StyleSheet.create(welcomeStyles());
   const navigation = useNavigation();
-  const { mainCurrency, setMainCurrency } = useDefaultCurrency();
-  const [ design, setDesign] = useState(true);
+  const route = useRoute();
 
-  const profileScreenConfig = [{
-    title: "Settings",
-    data: [
-      {
-        type: "button",
-        title: "Currency",
-        result: mainCurrency,
-        actionHandler: () =>
-          navigation.navigate('settingsMainCurrency', {})
-      },
-      {
-        type: "button",
-        title: "Language",
-        result: "System",
-        buttonDisabled: true,
-        actionHandler: () => { }
-      },
-      {
-        type: "button",
-        title: "Design",
-        result: "System",
-        buttonDisabled: true,
-        actionHandler: () => { }
-      },
+  const [modalVisible, setModalVisible] = useState(false);
 
-    ],
-  },
-  {
-    title: "myApp",
-    data: [{
-      type: "info",
-      title: "developer: duronflo",
-      buttonDisabled: true,
-    },
-    {
-      type: "switch",
-      title: "Design",
-      result: design, 
-      buttonDisabled: true,
-      actionHandler: () => setDesign(!design)
-    }]
+  const modalState = () => {
+    return {
+      modalVisible,
+      toggleModalVisible : () => setModalVisible(() => !modalVisible)
+    }
   }
-  ]
+
+  useEffect(() => {
+    // Listen for changes to the navigation params
+    if (route.params?.openModal) {
+      setModalVisible(true);
+      // Reset the navigation params
+      navigation.setOptions({ params: { openModal: false } });
+    }
+  }, [route.params]);
+
   return (
     <View style={styles.container}>
-      <SectionList
-        sections={profileScreenConfig}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => {
-          return (
-            <SectionListElement type={item.type} title={item.title} result={item.result} onPress={item.actionHandler} buttonDisabled={item.buttonDisabled} />
-          )
-        }}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.sectionTitle}>{title}</Text>
-        )}
-      />
+      <ModalBasic styles={styles}  modalState={modalState} text={"Ich baue einen Info-Screen"}/>
+      <SettingList />
     </View>
   );
 }
+
+
