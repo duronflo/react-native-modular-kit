@@ -40,6 +40,7 @@ export default function Welcome() {
     }
   }
 
+
   useEffect(() => {
     // Listen for changes to the navigation params
     if (route.params?.openModal) {

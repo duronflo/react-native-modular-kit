@@ -5,6 +5,10 @@ import { renderWithRedux} from '../../../../utilities/test-utils';
 import MainCurrencyScreen from '../../MainCurrencySetting';
 import { initialState } from "../../userSlice"
 
+jest.mock(
+    '@expo/vector-icons',
+    () => 'Entypo',
+  );
 
 describe('Set default currency', () => {
     test('submits form data on button press to a redux state',  () => {

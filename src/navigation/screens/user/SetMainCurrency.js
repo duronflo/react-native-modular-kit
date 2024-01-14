@@ -14,9 +14,16 @@ const SetMainCurrencyScreen = () => {
 
   // use side effect to navigate to previous screen and reset status of status views
   useEffect(() => {
+    // check if status changed to SUCCESS, if so goBack()
     if (status === SUCCESS) {
       navigation.goBack();
-      setStatus(PENDING);
+    }
+    // use cleanup for reseting status back to PENDING, it is performerd after the screen is umounted
+    return () => {
+      if (status === SUCCESS) {
+        setStatus(PENDING);
+      }
+
     }
   }, [status])
 
